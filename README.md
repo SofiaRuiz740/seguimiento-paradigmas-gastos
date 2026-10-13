@@ -116,10 +116,10 @@ El programa sigue un flujo secuencial controlado por un menú en consola. La ló
 
 El problema se modela con objetos que agrupan datos y comportamiento.
 
-- **Clase `Gasto`:** atributos privados `concepto`, `monto` y `categoria`, con constructor, getters, setters y `toString()`.
+- **Clase `Gasto`:** atributos privados `concepto`, `monto` y `categoria`, con constructor, getters, setters y `toString()`. Las categorías válidas son Alimentación, Transporte, Servicios y Entretenimiento. El monto debe ser mayor que 0.
 - **Clase `GestorGastos`:** contiene una `List<Gasto>` (composición) y los métodos `agregarGasto()`, `listarGastos()`, `calcularTotal()`, `obtenerGastoMayor()`, `filtrarPorMonto()` y `buscarPorConcepto()`.
-- **Encapsulamiento:** el estado de cada objeto solo se modifica a través de sus métodos.
-- **Instanciación:** `Main` crea un `GestorGastos` y le agrega objetos `Gasto`.
+- **Encapsulamiento:** el estado de cada objeto solo se modifica a través de sus métodos. `listarGastos()`, `filtrarPorMonto()` y `buscarPorConcepto()` devuelven una copia de la lista.
+- **Instanciación:** `Main` crea un `GestorGastos`, le agrega objetos `Gasto` de ejemplo y muestra un menú de consola con las 6 funcionalidades. Filtrar lista los gastos cuyo monto supera el valor ingresado. Buscar encuentra los conceptos que contienen el texto, sin distinguir mayúsculas.
 
 ### 3. Paradigma Orientado a Eventos
 **Responsable:** Sofía Ruiz Sánchez
