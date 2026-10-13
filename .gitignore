@@ -1,0 +1,53 @@
+# ===== Java =====
+# Archivos compilados
+*.class
+
+# Logs
+*.log
+
+# Paquetes generados
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Volcados de error de la JVM
+hs_err_pid*
+replay_pid*
+
+# ===== Carpetas de compilación =====
+bin/
+out/
+build/
+target/
+
+# ===== IDEs =====
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+
+# VS Code
+.vscode/
+
+# ===== Sistema operativo =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Base de datos local (paradigma declarativo) =====
+*.db
+*.sqlite
