@@ -1,6 +1,6 @@
 # Seguimiento de Gastos con Paradigmas de Programación
 
-Aplicación de gestión de finanzas personales desarrollada en **Java** e implementada cuatro veces, cada una aplicando un paradigma de programación distinto: **Estructurado, Orientado a Objetos, Orientado a Eventos y Declarativo**. El objetivo es comparar cómo cada enfoque organiza la lógica, estructura el código y administra los datos al resolver exactamente el mismo problema.
+Aplicación de gestión de finanzas personales implementada cuatro veces, cada una aplicando un paradigma de programación distinto: **Estructurado, Orientado a Objetos, Orientado a Eventos y Declarativo**. Las tres primeras usan **Java**; la declarativa usa **SQL** sobre SQLite. El objetivo es comparar cómo cada enfoque organiza la lógica, estructura el código y administra los datos al resolver exactamente el mismo problema.
 
 El proyecto se desarrolla de forma colaborativa con Git y GitHub, siguiendo un flujo de ramas `feature/*` → `develop` → `main` con revisión de código mediante Pull Requests.
 
@@ -50,10 +50,9 @@ El proyecto se desarrolla de forma colaborativa con Git y GitHub, siguiendo un f
 
 | Tecnología | Uso |
 |---|---|
-| **Java 17+** | Lenguaje de todas las implementaciones |
+| **Java 17+** | Lenguaje de los paradigmas estructurado, orientado a objetos y orientado a eventos |
 | **Java Swing** | Interfaz gráfica del paradigma orientado a eventos |
-| **HTML** | Interfaz del paradigma declarativo: describe la estructura de la página |
-| **SQL** | Consultas para registrar y obtener los gastos en el paradigma declarativo |
+| **SQL sobre SQLite** | Paradigma declarativo: las consultas expresan qué datos se quieren y el motor decide cómo recorrerlos |
 | **Git y GitHub** | Control de versiones y trabajo colaborativo |
 
 ---
@@ -71,7 +70,6 @@ seguimiento-paradigmas-gastos/
 ├── eventos/
 │   └── GastosGUI.java               # Ventana Swing con botones y listeners
 ├── declarativo/
-│   ├── index.html                   # Página con el formulario y la tabla de gastos
 │   └── gastos.sql                   # Tabla y consultas SQL de las 6 funcionalidades
 ├── .gitignore
 └── README.md
@@ -81,7 +79,7 @@ seguimiento-paradigmas-gastos/
 
 ## Requisitos y ejecución
 
-**Requisitos:** JDK 17 o superior instalado (`java -version` para verificar).
+**Requisitos:** JDK 17 o superior instalado (`java -version` para verificar). Para el paradigma declarativo, SQLite (`sqlite3` o DB Browser for SQLite).
 
 ```bash
 git clone https://github.com/SofiaRuiz740/seguimiento-paradigmas-gastos.git
@@ -93,9 +91,9 @@ cd seguimiento-paradigmas-gastos
 | Estructurado | `javac estructurado/GastosEstructurado.java` | `java -cp estructurado GastosEstructurado` |
 | POO | `javac poo/*.java` | `java -cp poo Main` |
 | Eventos | `javac eventos/GastosGUI.java` | `java -cp eventos GastosGUI` |
-| Declarativo | — | Abrir `declarativo/index.html` en el navegador y ejecutar `declarativo/gastos.sql` en el gestor de base de datos _(completar cuál)_ |
+| Declarativo | — | `sqlite3 declarativo/gastos.db < declarativo/gastos.sql` |
 
-> En Windows, en el paradigma declarativo se usa `;` en lugar de `:` dentro de `-cp`.
+> En Windows, al ejecutar los paradigmas en Java se usa `;` en lugar de `:` dentro de `-cp`. La base `declarativo/gastos.db` no se sube al repositorio.
 
 ---
 
@@ -138,10 +136,7 @@ Componentes usados: `JFrame`, `JTextField`, `JComboBox` (categorías), `JButton`
 ### 4. Paradigma Declarativo
 **Responsable:** Alejandro Martínez Perdomo
 
-Se describe **qué** se quiere obtener, no **cómo** obtenerlo, usando dos lenguajes declarativos:
-
-- **HTML:** describe la estructura de la página (formulario de registro, campos de filtro y búsqueda, tabla de resultados) sin indicar cómo dibujarla; de eso se encarga el navegador.
-- **SQL:** describe qué datos se necesitan y el motor de base de datos decide cómo recorrerlos. No hay ciclos para filtrar ni variables acumuladoras para sumar.
+Se describe **qué** datos se desean obtener y se delega al motor de SQLite **cómo** iterarlos y procesarlos. No hay ciclos para filtrar ni variables acumuladoras para sumar: cada funcionalidad es una consulta. Las categorías de ejemplo son Alimentación, Transporte, Servicios y Entretenimiento. El script está en `declarativo/gastos.sql`.
 
 | Funcionalidad | Consulta SQL |
 |---|---|
