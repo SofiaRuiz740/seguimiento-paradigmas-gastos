@@ -1,6 +1,6 @@
 # Seguimiento de Gastos con Paradigmas de Programación
 
-Aplicación de gestión de finanzas personales desarrollada en **Java** e implementada cuatro veces, cada una aplicando un paradigma de programación distinto: **Estructurado, Orientado a Objetos, Orientado a Eventos y Declarativo**. El objetivo es comparar cómo cada enfoque organiza la lógica, estructura el código y administra los datos al resolver exactamente el mismo problema.
+Aplicación de gestión de finanzas personales implementada cuatro veces, cada una aplicando un paradigma de programación distinto: **Estructurado, Orientado a Objetos, Orientado a Eventos y Declarativo**. Las tres primeras usan **Java**; la declarativa usa **SQL** sobre SQLite. El objetivo es comparar cómo cada enfoque organiza la lógica, estructura el código y administra los datos al resolver exactamente el mismo problema.
 
 El proyecto se desarrolla de forma colaborativa con Git y GitHub, siguiendo un flujo de ramas `feature/*` → `develop` → `main` con revisión de código mediante Pull Requests.
 
@@ -39,7 +39,7 @@ El proyecto se desarrolla de forma colaborativa con Git y GitHub, siguiendo un f
 
 | Integrante | Usuario GitHub | Paradigma | Rama | Carpeta |
 |---|---|---|---|---|
-| Salomé Montoya Gonzales | [@Salome33](https://github.com/Salome33) | Estructurado | `feature/paradigma-estructurado` | `estructurado/` |
+| Salomé Montoya Gonzales | [@Salome33](https://github.com/Salome33) | Estructurado | `feature/paradigma-estructurado` | `paradigma-estructural/` |
 | Kevin David Sarmiento | [@kevin-sarmiento](https://github.com/kevin-sarmiento) | Orientado a Objetos | `feature/paradigma-poo` | `poo/` |
 | Sofía Ruiz Sánchez | [@SofiaRuiz740](https://github.com/SofiaRuiz740) | Orientado a Eventos | `feature/paradigma-eventos` | `eventos/` |
 | Alejandro Martínez Perdomo | [@amartinezper](https://github.com/amartinezper) | Declarativo | `feature/paradigma-declarativo` | `declarativo/` |
@@ -50,10 +50,9 @@ El proyecto se desarrolla de forma colaborativa con Git y GitHub, siguiendo un f
 
 | Tecnología | Uso |
 |---|---|
-| **Java 17+** | Lenguaje de todas las implementaciones |
+| **Java 17+** | Lenguaje de los paradigmas estructurado, orientado a objetos y orientado a eventos |
 | **Java Swing** | Interfaz gráfica del paradigma orientado a eventos |
-| **HTML** | Interfaz del paradigma declarativo: describe la estructura de la página |
-| **SQL** | Consultas para registrar y obtener los gastos en el paradigma declarativo |
+| **SQL sobre SQLite** | Paradigma declarativo: las consultas expresan qué datos se quieren y el motor decide cómo recorrerlos |
 | **Git y GitHub** | Control de versiones y trabajo colaborativo |
 
 ---
@@ -62,17 +61,23 @@ El proyecto se desarrolla de forma colaborativa con Git y GitHub, siguiendo un f
 
 ```
 seguimiento-paradigmas-gastos/
-├── estructurado/
-│   └── GastosEstructurado.java      # Menú en consola con funciones estáticas
+├── paradigma-estructural/
+│   └── src/
+│       └── GastosEstructurados.java  # Menú en consola con funciones y arreglos
 ├── poo/
-│   ├── Gasto.java                   # Entidad con atributos encapsulados
-│   ├── GestorGastos.java            # Administra la colección de gastos
-│   └── Main.java                    # Punto de entrada
+│   ├── Gasto.java                    # Entidad con atributos encapsulados
+│   ├── GestorGastos.java             # Administra la colección de gastos
+│   └── Main.java                     # Punto de entrada
 ├── eventos/
-│   └── GastosGUI.java               # Ventana Swing con botones y listeners
+│   ├── Main.java                     # Crea el bus y conecta la lógica y la ventana
+│   ├── BusEventos.java               # Canal central: publicar y suscribirse a eventos
+│   ├── Eventos.java                  # Catálogo de eventos: solicitudes y resultados
+│   ├── ManejadorGastos.java          # Escucha solicitudes, procesa y publica resultados
+│   ├── VentanaGastos.java            # Interfaz Swing: publica solicitudes y escucha resultados
+│   ├── Gasto.java                    # Datos de un gasto y sus categorías
+│   └── Estilo.java                   # Colores y componentes visuales
 ├── declarativo/
-│   ├── index.html                   # Página con el formulario y la tabla de gastos
-│   └── gastos.sql                   # Tabla y consultas SQL de las 6 funcionalidades
+│   └── gastos.sql                    # Tabla y consultas SQL de las 6 funcionalidades
 ├── .gitignore
 └── README.md
 ```
@@ -81,7 +86,7 @@ seguimiento-paradigmas-gastos/
 
 ## Requisitos y ejecución
 
-**Requisitos:** JDK 17 o superior instalado (`java -version` para verificar).
+**Requisitos:** JDK 17 o superior instalado (`java -version` para verificar). Para el paradigma declarativo, SQLite (`sqlite3` o DB Browser for SQLite).
 
 ```bash
 git clone https://github.com/SofiaRuiz740/seguimiento-paradigmas-gastos.git
@@ -90,12 +95,12 @@ cd seguimiento-paradigmas-gastos
 
 | Paradigma | Compilar | Ejecutar |
 |---|---|---|
-| Estructurado | `javac estructurado/GastosEstructurado.java` | `java -cp estructurado GastosEstructurado` |
-| POO | `javac poo/*.java` | `java -cp poo Main` |
-| Eventos | `javac eventos/GastosGUI.java` | `java -cp eventos GastosGUI` |
-| Declarativo | — | Abrir `declarativo/index.html` en el navegador y ejecutar `declarativo/gastos.sql` en el gestor de base de datos _(completar cuál)_ |
+| Estructurado | `javac -encoding UTF-8 -d out/estructurado paradigma-estructural/src/GastosEstructurados.java` | `java -cp out/estructurado GastosEstructurados` |
+| POO | `javac -encoding UTF-8 -d out/poo poo/*.java` | `java -cp out/poo Main` |
+| Eventos | `javac -encoding UTF-8 -d out/eventos -sourcepath . eventos/Main.java` | `java -cp out/eventos eventos.Main` |
+| Declarativo | — | `sqlite3 declarativo/gastos.db < declarativo/gastos.sql` |
 
-> En Windows, en el paradigma declarativo se usa `;` en lugar de `:` dentro de `-cp`.
+> Los comandos se ejecutan desde la carpeta raíz del repositorio. La carpeta `out/` y la base `declarativo/gastos.db` no se suben al repositorio.
 
 ---
 
@@ -104,12 +109,11 @@ cd seguimiento-paradigmas-gastos
 ### 1. Paradigma Estructurado
 **Responsable:** Salomé Montoya Gonzales
 
-El programa sigue un flujo secuencial controlado por un menú en consola. La lógica se divide en métodos estáticos independientes que reciben los datos por parámetro.
+El programa sigue un flujo secuencial controlado por un menú en consola. La lógica se divide en funciones estáticas independientes que reciben los datos por parámetro.
 
-- **Variables globales y locales:** la lista de gastos se declara a nivel de clase y cada método usa variables locales.
-- **Estructuras de control:** `if/else` y `switch` para el menú; `while` para repetir el menú; `for` para recorrer los gastos.
-- **Funciones con parámetros:** `registrarGasto(...)`, `listarGastos(...)`, `calcularTotal(...)`, `gastoMayor(...)`, `filtrarPorMonto(...)`, `buscarPorConcepto(...)`.
-- **Estructuras de datos nativas:** arreglos o `ArrayList` paralelos para concepto, monto y categoría, sin clases propias.
+- **Estructuras de datos nativas:** tres arreglos paralelos (`conceptos`, `montos`, `categorias`) y un contador, sin clases propias.
+- **Estructuras de control:** `while` para repetir el menú, `switch` e `if/else` para las decisiones y `for` para recorrer los gastos.
+- **Funciones con parámetros:** `registrarGasto`, `mostrarGastos`, `calcularTotal`, `mostrarMayor`, `mostrarMayores` y `buscarConcepto`.
 
 ### 2. Paradigma Orientado a Objetos (POO)
 **Responsable:** Kevin David Sarmiento
@@ -124,24 +128,36 @@ El problema se modela con objetos que agrupan datos y comportamiento.
 ### 3. Paradigma Orientado a Eventos
 **Responsable:** Sofía Ruiz Sánchez
 
-La aplicación no sigue un orden fijo: espera a que el usuario interactúe con la interfaz gráfica y reacciona a cada acción mediante *listeners* (callbacks).
+El programa no sigue un orden fijo de instrucciones: crea la ventana, registra quién escucha cada evento y se queda esperando. Todo lo que pasa después es una **reacción a un evento** del usuario.
 
-| Evento | Componente | Acción |
+La ventana y la lógica nunca se llaman directamente; se comunican a través de un **bus de eventos** (`BusEventos`), donde unos publican y otros escuchan:
+
+```
+Usuario ──clic / Enter──▶ VentanaGastos ──publica──▶ Solicitud ──▶ BusEventos
+                                                                       │
+                          ManejadorGastos ◀───────escucha──────────────┘
+                                 │  procesa (registrar, sumar, filtrar, buscar…)
+                                 └──publica──▶ Resultado ──▶ BusEventos
+                                                                       │
+                          VentanaGastos ◀─────────escucha──────────────┘
+                                 └── actualiza la lista, los indicadores y los mensajes
+```
+
+| Acción del usuario | Solicitud publicada | Resultado que se escucha |
 |---|---|---|
-| Clic | Botón **Registrar Gasto** | Lee los campos y agrega el gasto a la lista |
-| Clic | Botón **Calcular Total** | Muestra la suma de todos los montos |
-| Clic | Botón **Filtrar por Monto Mínimo** | Muestra los gastos mayores al valor ingresado |
-| Clic / Enter | Campo y botón **Buscar por Concepto** | Muestra los gastos que contienen el texto buscado |
+| Clic / Enter en **Registrar gasto** | `RegistrarGasto` | `GastoRegistrado` o `ErrorOcurrido` |
+| Clic en **Ver todos** | `VerTodos` | `ListaActualizada` |
+| Clic en **Calcular total** | `CalcularTotal` | `TotalCalculado` |
+| Clic en **Gasto mayor** | `BuscarMayor` | `MayorEncontrado` |
+| Clic / Enter en **Filtrar por monto mínimo** | `FiltrarPorMonto` | `ListaActualizada` |
+| Clic / Enter en **Buscar por concepto** | `BuscarPorConcepto` | `ListaActualizada` |
 
-Componentes usados: `JFrame`, `JTextField`, `JComboBox` (categorías), `JButton`, `JTable` o `JTextArea` y `ActionListener`.
+Elementos del paradigma presentes en el código: fuentes de eventos (botones y campos de Swing), *listeners* y *callbacks* (`addActionListener`, `MouseListener`, `FocusListener`), publicación y suscripción (`BusEventos.publicar` y `BusEventos.suscribir`) y desacoplamiento entre la interfaz y la lógica.
 
 ### 4. Paradigma Declarativo
 **Responsable:** Alejandro Martínez Perdomo
 
-Se describe **qué** se quiere obtener, no **cómo** obtenerlo, usando dos lenguajes declarativos:
-
-- **HTML:** describe la estructura de la página (formulario de registro, campos de filtro y búsqueda, tabla de resultados) sin indicar cómo dibujarla; de eso se encarga el navegador.
-- **SQL:** describe qué datos se necesitan y el motor de base de datos decide cómo recorrerlos. No hay ciclos para filtrar ni variables acumuladoras para sumar.
+Se describe **qué** datos se desean obtener y se delega al motor de SQLite **cómo** iterarlos y procesarlos. No hay ciclos para filtrar ni variables acumuladoras para sumar: cada funcionalidad es una consulta. Las categorías de ejemplo son Alimentación, Transporte, Servicios y Entretenimiento. El script está en `declarativo/gastos.sql`.
 
 | Funcionalidad | Consulta SQL |
 |---|---|
@@ -211,7 +227,12 @@ Mensajes en modo imperativo con un prefijo:
 | **Desventajas** | Difícil de mantener cuando el programa crece | Requiere más diseño y más archivos | El flujo es más difícil de seguir y probar | Depende de un motor externo y de conocer SQL |
 
 ### Conclusiones
-_(Completar en equipo: qué paradigma resultó más adecuado para este problema, cuál fue más fácil o más difícil de implementar y por qué.)_
+
+Resolver el mismo problema con cuatro paradigmas permitió comparar directamente sus diferencias. El enfoque **estructurado** fue el más rápido de escribir, pero al depender de arreglos paralelos y funciones con muchos parámetros, se vuelve difícil de mantener si el programa crece. El **orientado a objetos** organizó mejor el código al agrupar los datos y las operaciones en clases con responsabilidades claras. El **orientado a eventos** permitió construir una interfaz gráfica en la que el usuario controla el flujo, y el uso de un bus de eventos separó la interfaz de la lógica. El **declarativo** resultó el más breve, ya que cada funcionalidad se resolvió con una sola consulta SQL, aunque depende de un motor de base de datos.
+
+### Paradigma más adecuado
+
+Para este sistema se eligió el **paradigma orientado a eventos** como el más adecuado. El problema es una aplicación de uso cotidiano en la que el usuario decide en cada momento qué hacer (registrar, consultar el total, buscar o filtrar), y este paradigma responde naturalmente a esas acciones mediante una interfaz gráfica intuitiva, a diferencia del estructurado y el orientado a objetos, que dependen de un menú en consola, o del declarativo, que requiere conocer SQL. Además, el bus de eventos separa la interfaz de la lógica del negocio, lo que hace el código más organizado, fácil de mantener y sencillo de ampliar: una nueva funcionalidad solo requiere un nuevo evento y su respuesta, sin modificar lo que ya existe.
 
 ---
 
